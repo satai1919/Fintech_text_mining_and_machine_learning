@@ -1,6 +1,7 @@
 '''
 from https://github.com/MiccWan/Political-News-Analysis/blob/master/crawler/new_talk_crawler.ipynb
 for homework usage.
+主要修改 get_new_talk_news()：現在可以透過輸入版面名稱指定要新頭殼新聞中哪一版面的新聞了
 '''
 
 import sys
@@ -75,19 +76,21 @@ def get_page_news(page_url):
         news.append(news_info)
     return(news)
 
-def get_new_talk_news(from_page=1, end_page=270, url="https://newtalk.tw/news/subcategory/2/政治/"):
+def get_new_talk_news(from_page=1, end_page=270, cate="政治"):
     '''
-	從指定的起始於結束頁碼之間找尋資料（預設1-269頁、政治版）
+	從指定的起始於結束頁碼之間找尋資料（預設1-269頁）
     '''
+    category = {"國際":1, "政治":2, "財經":3, "司法":4, "選舉":13, "社會":14, "中國":7, "遊戲":17, "環保":9, "電競":10, "遊戲":17, "科技":8, "創夢":6, "生活":5, "旅遊":15, "藝文":11, "美食":16, "體育":102, "新奇":103}
+    url = "https://newtalk.tw/news/subcategory/" 
     print("page_number from {} to {}".format(from_page, end_page -1))
     data = []
     for page_number in range(from_page, end_page):
         print("page_number: {}".format(page_number))
         #一頁一頁的處理
-        data = data + get_page_news( url+str(page_number) )
+        data = data + get_page_news( url+str(category[""+cate+""])+"/"+str(cate)+"/"+str(page_number) )
     
     print('done')
     return(data)
 
 
-data = get_new_talk_news(from_page=1, end_page=270)
+data = get_new_talk_news(from_page=1, end_page=270, cate="政治")
